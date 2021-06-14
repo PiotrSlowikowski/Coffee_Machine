@@ -1,9 +1,11 @@
 package machine;
 
+import java.util.Scanner;
+
 public class CoffeeMachine {
     private static int waterQuantity = 400;
     private static int milkQuantity = 540;
-    private static int beansQuantity = 120;
+    private static int coffeeBeansQuantity = 120;
     private static int cupsQuantity = 9;
     private static int moneyQuantity = 550;
 
@@ -14,6 +16,8 @@ public class CoffeeMachine {
 
     private static void coffeeMachineInit() {
 
+        printMachineSupplies();
+        chooseAction();
         printMachineSupplies();
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.println("Write how many ml of water the coffee machine has: ");
@@ -41,13 +45,87 @@ public class CoffeeMachine {
     }
 
     private static void printMachineSupplies() {
+        System.out.println();
         System.out.println("The coffee machine has:\n" +
                 waterQuantity + " ml of water\n" +
                 milkQuantity + " ml of milk\n" +
-                beansQuantity + " g of coffee beans\n" +
+                coffeeBeansQuantity + " g of coffee beans\n" +
                 cupsQuantity + " disposable cups\n" +
                 "$" + moneyQuantity + " of money\n");
     }
+
+    private static void chooseAction() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Write action (buy, fill, take): ");
+        String action = scanner.nextLine();
+        if (action.equals("buy")) {
+            buyAction();
+        } else if (action.equals("fill")) {
+            fillAction();
+        } else if (action.equals("take")) {
+            takeAction();
+        }
+    }
+
+    private static void takeAction() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("I gave you $" + moneyQuantity);
+        moneyQuantity = 0;
+    }
+
+    private static void fillAction() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Write how many ml of water you want to add: ");
+        int waterAddedQuantity = scanner.nextInt();
+        System.out.println("Write how many ml of milk you want to add: ");
+        int milkAddedQuantity = scanner.nextInt();
+        System.out.println("Write how many grams of coffee beans you want to add: ");
+        int coffeeBeansAddedQuantity = scanner.nextInt();
+        System.out.println("Write how many disposable cups of coffee you want to add: ");
+        int cupsAddedQuantity = scanner.nextInt();
+        waterQuantity += waterAddedQuantity;
+        milkQuantity += milkAddedQuantity;
+        coffeeBeansQuantity += coffeeBeansAddedQuantity;
+        cupsQuantity += cupsAddedQuantity;
+    }
+
+    private static void buyAction() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
+        int coffeeType = scanner.nextInt();
+        System.out.println();
+        if (coffeeType == 1) {
+            makeEspresso();
+        } else if (coffeeType == 2) {
+            makeLatte();
+        } else if (coffeeType == 3) {
+            makeCappuccino();
+        }
+    }
+
+    private static void makeEspresso() {
+        waterQuantity -= 250;
+        coffeeBeansQuantity -= 16;
+        moneyQuantity += 4;
+        cupsQuantity--;
+    }
+
+    private static void makeLatte() {
+        waterQuantity -= 350;
+        milkQuantity -= 75;
+        coffeeBeansQuantity -= 20;
+        moneyQuantity += 7;
+        cupsQuantity--;
+    }
+
+    private static void makeCappuccino() {
+        waterQuantity -= 200;
+        milkQuantity -= 100;
+        coffeeBeansQuantity -= 12;
+        moneyQuantity += 6;
+        cupsQuantity--;
+    }
+
 
     private static int calculateMinimumQuantityOfCupsAvailable(int quantityOfWaterInMachine, int quantityOfMilkInMachine,
                                                                int quantityOfCoffeeBeansInMachine) {
